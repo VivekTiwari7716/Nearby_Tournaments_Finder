@@ -1,0 +1,85 @@
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #f8f9fa;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+.auth-container {
+  max-width: 420px;
+  margin: 80px auto;
+  padding: 40px 30px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+h1 {
+  color: #1e40af;
+  margin-bottom: 8px;
+}
+
+h2 {
+  margin-top: 0;
+  color: #444;
+}
+
+.form-group {
+  margin: 20px 0;
+  text-align: left;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+button {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 14px;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+}
+
+button:hover {
+  background: #2563eb;
+}
+
+.switch-auth {
+  margin-top: 20px;
+  color: #555;
+}
+
+.error-msg {
+  color: #dc2626;
+  margin-top: 15px;
+  min-height: 24px;
+}
+
+.success-msg {
+  color: #059669;
+  margin-top: 15px;
+  min-height: 24px;
+}
+
+.leaflet-routing-container {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+}

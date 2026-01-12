@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register - Nearby Tournaments Finder</title>
+  <style>
+    /* Base Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .auth-container {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      animation: slideUp 0.5s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      color: #333;
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 2.2rem;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    h2 {
+      color: #555;
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 500;
+      font-size: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #555;
+      font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #e1e5e9;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: all 0.3s;
+      background: #f8f9fa;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #667eea;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .role-selection {
+      margin-bottom: 30px;
+    }
+
+    .role-options {
+      display: flex;
+      gap: 15px;
+      margin-top: 10px;
+    }
+
+    .role-option {
+      flex: 1;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .role-radio {
+      display: none;
+    }
+
+    .role-card {
+      padding: 20px 15px;
+      border: 2px solid #e1e5e9;
+      border-radius: 12px;
+      background: #f8f9fa;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .role-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .role-radio:checked + .role-card {
+      border-color: #667eea;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+      color: #667eea;
+    }
+
+    .role-icon {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .role-title {
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    .role-desc {
+      font-size: 0.85rem;
+      color: #666;
+      line-height: 1.4;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    button[type="submit"]:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 7px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    button[type="submit"]:active {
+      transform: translateY(0);
+    }
+
+    .switch-auth {
+      text-align: center;
+      margin-top: 25px;
+      color: #666;
+    }
+
+    .switch-auth a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .switch-auth a:hover {
+      text-decoration: underline;
+    }
+
+    #message {
+      text-align: center;
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 500;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .error-msg {
+      background: #fee2e2;
+      color: #dc2626;
+      border: 1px solid #fca5a5;
+    }
+
+    .success-msg {
+      background: #d1fae5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+    }
+
+    .password-requirements {
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: 5px;
+    }
+
+    .requirement {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 3px;
+    }
+
+    .requirement.valid {
+      color: #059669;
+    }
+
+    .requirement.invalid {
+      color: #dc2626;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      .auth-container {
+        padding: 30px 20px;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+      
+      h2 {
+        font-size: 1.3rem;
+      }
+      
+      .role-options {
+        flex-direction: column;
+      }
+      
+      .role-card {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="auth-container">
+  <h1>🏆 Nearby Tournaments Finder</h1>
+  <h2>Create Your Account</h2>
+
+  <form id="registerForm">
+    <div class="form-group">
+      <label for="fullName">Full Name</label>
+      <input type="text" id="fullName" required placeholder="John Doe">
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" required placeholder="you@example.com">
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" required placeholder="Create a strong password">
+      <div class="password-requirements">
+        <div id="lengthReq" class="requirement invalid">✓ At least 8 characters</div>
+        <div id="numberReq" class="requirement invalid">✓ Contains a number</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="confirmPassword">Confirm Password</label>
+      <input type="password" id="confirmPassword" required placeholder="Re-enter your password">
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Phone Number (Optional)</label>
+      <input type="tel" id="phone" placeholder="+91 9876543210">
+    </div>
+
+    <div class="form-group role-selection">
+      <label>I want to:</label>
+      <div class="role-options">
+        <label class="role-option">
+          <input type="radio" name="userType" value="participant" class="role-radio" checked>
+          <div class="role-card">
+            <span class="role-icon">👤</span>
+            <div class="role-title">Find Tournaments</div>
+            <div class="role-desc">Search & join sports events near you</div>
+          </div>
+        </label>
+        
+        <label class="role-option">
+          <input type="radio" name="userType" value="organizer" class="role-radio">
+          <div class="role-card">
+            <span class="role-icon">🎯</span>
+            <div class="role-title">Organize Events</div>
+            <div class="role-desc">Create & manage tournaments</div>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <button type="submit">Create Account</button>
+  </form>
+
+  <p class="switch-auth">
+    Already have an account? <a href="login.html">Login here</a>
+  </p>
+
+  <p id="message" class="error-msg"></p>
+</div>
+
+<script>
+// Password validation
+const passwordInput = document.getElementById('password');
+const lengthReq = document.getElementById('lengthReq');
+const numberReq = document.getElementById('numberReq');
+
+passwordInput.addEventListener('input', function() {
+  const password = this.value;
+  
+  // Check length
+  if (password.length >= 8) {
+    lengthReq.classList.remove('invalid');
+    lengthReq.classList.add('valid');
+  } else {
+    lengthReq.classList.remove('valid');
+    lengthReq.classList.add('invalid');
+  }
+  
+  // Check for number
+  if (/\d/.test(password)) {
+    numberReq.classList.remove('invalid');
+    numberReq.classList.add('valid');
+  } else {
+    numberReq.classList.remove('valid');
+    numberReq.classList.add('invalid');
+  }
+});
+
+// Update role card styles when clicked
+document.querySelectorAll('.role-radio').forEach(radio => {
+  radio.addEventListener('change', function() {
+    document.querySelectorAll('.role-card').forEach(card => {
+      card.style.borderColor = '#e1e5e9';
+      card.style.background = '#f8f9fa';
+    });
+    
+    const selectedCard = this.nextElementSibling;
+    selectedCard.style.borderColor = '#667eea';
+    selectedCard.style.background = 'linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1))';
+  });
+});
+
+// Registration handling
+document.getElementById('registerForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const fullName = document.getElementById('fullName').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
+  const phone = document.getElementById('phone').value.trim();
+  const userType = document.querySelector('input[name="userType"]:checked').value;
+
+  const msgEl = document.getElementById('message');
+
+  // Validation
+  if (password.length < 8) {
+    msgEl.textContent = "Password must be at least 8 characters long!";
+    msgEl.className = "error-msg";
+    return;
+  }
+
+  if (!/\d/.test(password)) {
+    msgEl.textContent = "Password must contain at least one number!";
+    msgEl.className = "error-msg";
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    msgEl.textContent = "Passwords do not match!";
+    msgEl.className = "error-msg";
+    return;
+  }
+
+  // Check if user already exists
+  const users = JSON.parse(localStorage.getItem('users') || '[]');
+  const existingUser = users.find(u => u.email === email);
+
+  if (existingUser) {
+    msgEl.textContent = "Email already registered!";
+    msgEl.className = "error-msg";
+    return;
+  }
+
+  // Create new user
+  const newUser = {
+    id: Date.now().toString(),
+    fullName,
+    email,
+    password,
+    phone,
+    userType,
+    createdAt: new Date().toISOString()
+  };
+
+  // Save user
+  users.push(newUser);
+  localStorage.setItem('users', JSON.stringify(users));
+  
+  // Auto login
+  localStorage.setItem('currentUser', JSON.stringify(newUser));
+
+  msgEl.textContent = `Account created successfully! Welcome ${userType === 'organizer' ? 'Organizer' : 'Participant'}!`;
+  msgEl.className = "success-msg";
+
+  setTimeout(() => {
+    // Redirect based on user type
+    if (userType === 'organizer') {
+      window.location.href = "organizer-dashboard.html";
+    } else {
+      window.location.href = "main.html";
+    }
+  }, 1500);
+});
+</script>
+
+</body>
+</html>
